@@ -8,12 +8,13 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
+    "check-npm": "npm --version",
     "wt-debug": "npx react-native run-android --active-arch-only"
   },
   "dependencies": {
+    "@react-native/new-app-screen": "0.81.5",
     "react": "19.1.0",
     "react-native": "0.81.5",
-    "@react-native/new-app-screen": "0.81.5",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "@types/react-test-renderer": "^19.1.0",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "npm": "^11.6.4",
     "prettier": "2.8.8",
     "react-test-renderer": "19.1.0",
     "typescript": "^5.8.3"
