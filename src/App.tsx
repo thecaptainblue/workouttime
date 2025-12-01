@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainStackScreen } from './views/Screens/MainStackScreen';
 // import { SettingStackScreen } from './views/Screens/SettingStackScreen';
 // import { useInitializeTts } from './hooks/useInitializeTts';
-// import AntSettingsIcon from 'react-native-vector-icons/AntDesign';
-// import EntypoHomeIcon from 'react-native-vector-icons/Entypo';
+import AntSettingsIcon from 'react-native-vector-icons/AntDesign';
+import EntypoHomeIcon from 'react-native-vector-icons/Entypo';
 // import { useInitializeInternationalization } from './hooks/useInitializeInternationalization';
 import { DarkTheme } from '@react-navigation/native';
 import { ScreenNames } from './views/Screens/ScreenNames';
@@ -90,8 +90,7 @@ export default function App() {
             const navigationState = navigation.getState();
             return {
               tabBarIcon: ({ focused, color, size }) => {
-                // return <EntypoHomeIcon name="home" size={size} color={color} />; TODO yukseltme
-                return <Text>Home ikonu</Text>
+                return <EntypoHomeIcon name="home" size={size} color={color} />;
               },
               tabBarStyle: {
                 display: NavHelper.isCurrentRoute(navigationState, [
