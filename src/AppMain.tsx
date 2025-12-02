@@ -21,7 +21,7 @@ import {
 } from 'react-native-gesture-handler';
 import { EventName } from './@types/EventNames';
 // import { runOnJS } from 'react-native-reanimated';
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LogHelper from './helper/LogHelper';
 // import Toast from 'react-native-toast-message';
@@ -84,12 +84,12 @@ export default function AppMain() {
   //     });
   // }, []);
 
-  // useEffect(() => {
-  //   if (isInitialized) {
-  //     SplashScreen.hide();
-  //     console.log('hide SplashScreen');
-  //   }
-  // }, [isInitialized]);
+  useEffect(() => {
+    if (isInitialized) {
+      SplashScreen.hide();
+      console.log('hide SplashScreen');
+    }
+  }, [isInitialized]);
 
   // useEffect(() => {
   //   const listener = DeviceEventEmitter.addListener(EventName.RealmEventReopen, () => {

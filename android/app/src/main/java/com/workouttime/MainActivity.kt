@@ -6,6 +6,7 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnable
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import android.os.Bundle
 import com.swmansion.rnscreens.fragment.restoration.RNScreensFragmentFactory
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen // installSplashScreen nin calismasi icin gerekli
 
 class MainActivity : ReactActivity() {
 
@@ -24,6 +25,10 @@ class MainActivity : ReactActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
     supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
+    // asagidaki kod rn0.73e yukselince calismadi halbuki ayni core surumunu kullaniyordum. bu yuzden bir alttaki satira gectim 
+    // androidx.core.splashscreen.SplashScreen.installSplashScreen(this) // native splash screen which will be skipped
+    installSplashScreen() // native splash screen which will be skipped
+    org.devio.rn.splashscreen.SplashScreen.show(this, true) // custom splash screen from react-native-splash-screen library
     super.onCreate(savedInstanceState)
   }
 }

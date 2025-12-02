@@ -82,8 +82,8 @@ android {
         applicationId "com.workouttime"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 30
+        versionName "1.0.0"
     }
     signingConfigs {
         debug {
@@ -116,6 +116,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // splash screen icin ekledim.
+    implementation "androidx.core:core-splashscreen:1.0.0"
+    implementation 'commons-io:commons-io:2.8.0'
 }
 
 // vector-icons larin calismasi icin gerekli

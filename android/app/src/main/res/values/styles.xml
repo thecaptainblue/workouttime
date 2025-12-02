@@ -1,9 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+     <!-- AppCombat en asagisini navbar ile ayni gosteriyor , materials ise siyah gosteriyor -->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar"> -->
+     <!-- <style name="AppTheme" parent="Theme.AppCompat.NoActionBar"> -->
+     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:windowDisablePreview">true</item>
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+
+        <!-- acilistaki ve ekran gecislerindeki beyaz flashi engelliyor-->
+        <!-- DayNight'tan MaterialComponents/AppCombat a cevrilince gerek kalmadi-->
+        <!-- <item name="android:windowBackground">@color/primary_dark</item>  -->
+        <!-- Theme.AppCompat da uygulama arka plana alindiginda soft buton bolgesinin 
+        rengine bu sepeb oluyor ama nedense bu rengin uzerine bir islem daha yapiliyor 
+        ve siyahin gri gozukmesine sebep oluyor -->
+        <!-- <item name="android:colorBackground">@color/primary_dark</item>  -->
     </style>
 
+   <style name="Theme.App.Starting" parent="Theme.SplashScreen"> 
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- <item name="android:windowSplashScreenBackground">@color/primary_light</item> -->
+        <item name="postSplashScreenTheme">@style/AppTheme</item> // or other theme you want to use
+    </style> 
 </resources>
