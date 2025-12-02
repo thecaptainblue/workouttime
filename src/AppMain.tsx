@@ -4,11 +4,11 @@ import App from './App';
 // import { store } from './store/Store';
 // import { Provider } from 'react-redux';
 // import { SoundService } from './services/SoundService';
-// import { ServiceRegistry } from './services/ServiceRegistry';
-// import { LogService } from './services/Log/LogService';
+import { ServiceRegistry } from './services/ServiceRegistry';
+import { LogService } from './services/Log/LogService';
 // import { SettingsService } from './services/Settings/SettingsService';
 // import { FSService } from './services/FS/FSService';
-// import { IService } from './services/IService';
+import { IService } from './services/IService';
 // import { PlatformAndroidService } from './services/platform/PlatformAndroidService';
 import { View, DeviceEventEmitter, Dimensions, AppState, Platform, AppStateStatus } from 'react-native';
 // import { WorkoutService } from './services/WorkoutService';
@@ -42,38 +42,39 @@ export const AppConstants = {
 };
 
 export default function AppMain() {
-  // const registryRef = useRef(ServiceRegistry.getInstance());
-  // const [isInitialized, setInitialized] = useState(false);
+  const registryRef = useRef(ServiceRegistry.getInstance());
+  const [isInitialized, setInitialized] = useState(false);
   // const [realmKey, setRealmKey] = useState(0);
 
-  // useEffect(() => {
-  //   LogService.debug('start========================AppMain initialize');
-  //   let services: IService[] = [];
-  //   let tmpService: IService;
+  useEffect(() => {
+    LogService.debug('start========================AppMain initialize');
+    let services: IService[] = [];
+    let tmpService: IService;
 
-  //   tmpService = new FSService();
-  //   services.push(tmpService);
+    // tmpService = new FSService();
+    // services.push(tmpService);
 
-  //   tmpService = new PlatformAndroidService();
-  //   services.push(tmpService);
+    // tmpService = new PlatformAndroidService();
+    // services.push(tmpService);
 
-  //   tmpService = new SoundService();
-  //   services.push(tmpService);
+    // tmpService = new SoundService();
+    // services.push(tmpService);
 
-  //   tmpService = new SettingsService();
-  //   services.push(tmpService);
+    // tmpService = new SettingsService();
+    // services.push(tmpService);
 
-  //   tmpService = new WorkoutService();
-  //   services.push(tmpService);
+    // tmpService = new WorkoutService();
+    // services.push(tmpService);
 
-  //   services.forEach(service => registryRef.current.addService(service));
-  //   services.forEach(service => service.initialize());
+    services.forEach(service => registryRef.current.addService(service));
+    services.forEach(service => service.initialize());
 
-  //   setInitialized(true);
-  //   return () => {
-  //     services.forEach(service => service.finalize());
-  //   };
-  // }, []);
+    setInitialized(true);
+    return () => {
+      services.forEach(service => service.finalize());
+    };
+  }, []);
+
   // useEffect(() => {
   //   mobileAds()
   //     .initialize()
@@ -115,7 +116,7 @@ export default function AppMain() {
       // runOnJS(throwEvent)(event); // TODO yukseltme reanimated yuklendiginde acacagim.
     });
 
-  // LogService.debug('AppMain========================render');
+  LogService.debug('AppMain========================render');
   // let content;
   // if (isInitialized) {
   //   content = (
@@ -152,14 +153,26 @@ export default function AppMain() {
   // }
 
   // return content;
-  return (
-    <GestureHandlerRootView
-      style={{ flex: 1 }}
-      onLayout={event => {
-        // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
-      }}>
-      <GestureDetector gesture={native}>
-        <App />
-      </GestureDetector>
-    </GestureHandlerRootView>)
+  ///////////////////////////===========
+  let content;
+  if (isInitialized) {
+    content = (
+      <>
+        <GestureHandlerRootView
+          style={{ flex: 1 }}
+          onLayout={event => {
+            // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
+          }}>
+          <GestureDetector gesture={native}>
+            <App />
+          </GestureDetector>
+        </GestureHandlerRootView>
+      </>
+    );
+  } else {
+    content = <View></View>;
+  }
+
+  return content;
+
 }
