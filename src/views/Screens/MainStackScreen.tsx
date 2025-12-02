@@ -6,9 +6,9 @@ import Home from '../Home/Home';
 // import WorkoutAddEdit from '../Workout/WorkoutAddEdit';
 // import ExerciseAddEdit from '../Workout/ExerciseAddEdit';
 // import GroupAddEdit from '../Workout/GroupAddEdit';
-// import { PageType } from '../../@types/PageType';
-// import { useTranslation } from 'react-i18next';
-// import { ResKey } from '../../lang/ResKey';
+import { PageType } from '../../@types/PageType';
+import { useTranslation } from 'react-i18next';
+import { ResKey } from '../../lang/ResKey';
 // import WorkoutPlayerEnd from '../WorkoutPlayer/WorkoutPlayerEnd';
 import { HeaderBackButtonProps } from '@react-navigation/elements';
 import { ScreenNames } from './ScreenNames';
@@ -37,7 +37,7 @@ const MainStack = createNativeStackNavigator<MainStackParamList>();
 // };
 
 export const MainStackScreen = () => {
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   // const warningBackEditingWorkout = useCallback((props: HeaderBackButtonProps, navigation: any) => {
   //   return (
@@ -93,8 +93,7 @@ export const MainStackScreen = () => {
           }}
           options={{
             title:
-              "Home"
-            //t(ResKey.WorkoutHomeTitle) // TODO  resourdan alinacak
+              t(ResKey.WorkoutHomeTitle)
             , headerTintColor: ColorConstants.primary
           }}
         />
