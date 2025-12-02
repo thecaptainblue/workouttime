@@ -6,10 +6,10 @@ import App from './App';
 // import { SoundService } from './services/SoundService';
 import { ServiceRegistry } from './services/ServiceRegistry';
 import { LogService } from './services/Log/LogService';
-// import { SettingsService } from './services/Settings/SettingsService';
+import { SettingsService } from './services/Settings/SettingsService';
 import { FSService } from './services/FS/FSService';
 import { IService } from './services/IService';
-// import { PlatformAndroidService } from './services/platform/PlatformAndroidService';
+import { PlatformAndroidService } from './services/platform/PlatformAndroidService';
 import { View, DeviceEventEmitter, Dimensions, AppState, Platform, AppStateStatus } from 'react-native';
 import { WorkoutService } from './services/WorkoutService';
 import {
@@ -55,14 +55,14 @@ export default function AppMain() {
     tmpService = new FSService();
     services.push(tmpService);
 
-    // tmpService = new PlatformAndroidService();
-    // services.push(tmpService);
+    tmpService = new PlatformAndroidService();
+    services.push(tmpService);
 
     // tmpService = new SoundService();
     // services.push(tmpService);
 
-    // tmpService = new SettingsService();
-    // services.push(tmpService);
+    tmpService = new SettingsService();
+    services.push(tmpService);
 
     tmpService = new WorkoutService();
     services.push(tmpService);
