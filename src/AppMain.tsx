@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import App from './App';
 // import { store } from './store/Store';
 // import { Provider } from 'react-redux';
-// import { SoundService } from './services/SoundService';
+import { SoundService } from './services/SoundService';
 import { ServiceRegistry } from './services/ServiceRegistry';
 import { LogService } from './services/Log/LogService';
 import { SettingsService } from './services/Settings/SettingsService';
@@ -19,7 +19,7 @@ import {
   GestureStateChangeEvent,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-// import { EventName } from './@types/EventNames';
+import { EventName } from './@types/EventNames';
 // import { runOnJS } from 'react-native-reanimated';
 // import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -58,8 +58,8 @@ export default function AppMain() {
     tmpService = new PlatformAndroidService();
     services.push(tmpService);
 
-    // tmpService = new SoundService();
-    // services.push(tmpService);
+    tmpService = new SoundService();
+    services.push(tmpService);
 
     tmpService = new SettingsService();
     services.push(tmpService);
