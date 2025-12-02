@@ -12,7 +12,7 @@ import { DarkTheme } from '@react-navigation/native';
 import { ScreenNames } from './views/Screens/ScreenNames';
 import { NavHelper } from './helper/NavHelper';
 import { NavigatorTypes } from './@types/NavigatorTypes';
-// import { LogService } from './services/Log/LogService';
+import { LogService } from './services/Log/LogService';
 import { navigationRef } from './helper/RootNavigation';
 import { Text } from 'react-native';
 // import { TestStackScreen } from './views/Screens/TestStackScreen';

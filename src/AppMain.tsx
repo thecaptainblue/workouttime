@@ -7,11 +7,11 @@ import App from './App';
 import { ServiceRegistry } from './services/ServiceRegistry';
 import { LogService } from './services/Log/LogService';
 // import { SettingsService } from './services/Settings/SettingsService';
-// import { FSService } from './services/FS/FSService';
+import { FSService } from './services/FS/FSService';
 import { IService } from './services/IService';
 // import { PlatformAndroidService } from './services/platform/PlatformAndroidService';
 import { View, DeviceEventEmitter, Dimensions, AppState, Platform, AppStateStatus } from 'react-native';
-// import { WorkoutService } from './services/WorkoutService';
+import { WorkoutService } from './services/WorkoutService';
 import {
   Gesture,
   GestureDetector,
@@ -23,6 +23,7 @@ import {
 // import { runOnJS } from 'react-native-reanimated';
 // import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import LogHelper from './helper/LogHelper';
 // import Toast from 'react-native-toast-message';
 // import { toastConfig } from './helper/ToastConfig';
 // import { RealmProvider } from '@realm/react';
@@ -51,8 +52,8 @@ export default function AppMain() {
     let services: IService[] = [];
     let tmpService: IService;
 
-    // tmpService = new FSService();
-    // services.push(tmpService);
+    tmpService = new FSService();
+    services.push(tmpService);
 
     // tmpService = new PlatformAndroidService();
     // services.push(tmpService);
@@ -63,8 +64,8 @@ export default function AppMain() {
     // tmpService = new SettingsService();
     // services.push(tmpService);
 
-    // tmpService = new WorkoutService();
-    // services.push(tmpService);
+    tmpService = new WorkoutService();
+    services.push(tmpService);
 
     services.forEach(service => registryRef.current.addService(service));
     services.forEach(service => service.initialize());
