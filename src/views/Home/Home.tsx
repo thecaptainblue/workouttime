@@ -7,17 +7,17 @@ import { WorkoutService } from '../../services/WorkoutService';
 import { LogService } from '../../services/Log/LogService';
 import { ServiceRegistry } from '../../services/ServiceRegistry';
 import { WorkoutData } from '../../@types/Data/WorkoutData';
-// import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   AddWorkout,
-//   PayloadAddWorkout,
-//   RemoveWorkout,
-//   SetWorkouts,
-//   selectWorkouts,
-// } from '../../store/features/workoutsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  AddWorkout,
+  PayloadAddWorkout,
+  RemoveWorkout,
+  SetWorkouts,
+  selectWorkouts,
+} from '../../store/features/workoutsSlice';
 import { WorkoutHelper } from '../../@types/Data/WorkoutHelper';
 import { v4 } from 'uuid';
-// import { SetSingleWorkout } from '../../store/features/workoutSingleSlice';
+import { SetSingleWorkout } from '../../store/features/workoutSingleSlice';
 import { PageType } from '../../@types/PageType';
 import { FloatingButton } from '../../components/FloatingButton';
 // import { BottomMenuWorkoutItem, BottomMenuWorkoutItemRefProps } from '../../components/BottomMenu/BottomMenuWorkout';
@@ -45,11 +45,11 @@ type HomeProps = NativeStackScreenProps<MainStackParamList, ScreenNames.MainHome
 export default function Home(props: HomeProps) {
 
   // // useWhatChanged(props, 'HomeScreen');
-  // const workouts = useSelector(selectWorkouts);
+  const workouts = useSelector(selectWorkouts);
   // // const workouts: WorkoutData[] = [];
-  // const workoutsRef = useUpdatedRef(workouts);
+  const workoutsRef = useUpdatedRef(workouts);
   const navigationRef = useUpdatedRef(props.navigation);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const isDragActive = useSharedValue(false);
   const workoutServiceRef = useRef<WorkoutService | null>(null);
   // const bottomMenuRef = useRef<BottomMenuWorkoutItemRefProps | null>(null);
@@ -88,35 +88,35 @@ export default function Home(props: HomeProps) {
   //   [],
   // );
 
-  // const setWorkoutsCallback = useCallback((workouts: WorkoutData[] | null) => {
-  //   if (workouts != null) {
-  //     LogService.debug('Home - load workouts with notification');
-  //     dispatch(SetWorkouts(workouts));
-  //     emptyListLabel.value = t(ResKey.WorkoutHomeEmptyListLabel);
-  //   }
-  // }, []);
+  const setWorkoutsCallback = useCallback((workouts: WorkoutData[] | null) => {
+    if (workouts != null) {
+      LogService.debug('Home - load workouts with notification');
+      dispatch(SetWorkouts(workouts));
+      emptyListLabel.value = t(ResKey.WorkoutHomeEmptyListLabel);
+    }
+  }, []);
 
-  // const processWorkoutsAndNotificationCallback = useCallback(
-  //   (tmpWorkouts: WorkoutData[] | null, workoutNotification: WorkoutData | null) => {
-  //     if (workoutNotification != null) {
-  //       navigationRef.current.navigate(ScreenNames.MainWorkoutPlayer, { workout: workoutNotification });
-  //       setTimeout(() => {
-  //         // after screen changes screen rerenders
-  //         setIsThereNotification(false);
-  //         setWorkoutsCallback(tmpWorkouts);
-  //       }, 300);
-  //     } else {
-  //       setIsThereNotification(false);
-  //       if (tmpWorkouts != null) {
-  //         setTimeout(() => {
-  //           // without timeout,  layout(height) changes and causes flicker
-  //           setWorkoutsCallback(tmpWorkouts);
-  //         }, 100);
-  //       }
-  //     }
-  //   },
-  //   [],
-  // );
+  const processWorkoutsAndNotificationCallback = useCallback(
+    (tmpWorkouts: WorkoutData[] | null, workoutNotification: WorkoutData | null) => {
+      if (workoutNotification != null) {
+        navigationRef.current.navigate(ScreenNames.MainWorkoutPlayer, { workout: workoutNotification });
+        setTimeout(() => {
+          // after screen changes screen rerenders
+          setIsThereNotification(false);
+          setWorkoutsCallback(tmpWorkouts);
+        }, 300);
+      } else {
+        setIsThereNotification(false);
+        if (tmpWorkouts != null) {
+          setTimeout(() => {
+            // without timeout,  layout(height) changes and causes flicker
+            setWorkoutsCallback(tmpWorkouts);
+          }, 100);
+        }
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
 
@@ -137,25 +137,26 @@ export default function Home(props: HomeProps) {
   }, []);
 
 
-  // useEffect(() => {
-  //   const registry = ServiceRegistry.getInstance();
-  //   const workoutService = registry.getService(WorkoutService.Basename) as WorkoutService;
-  //   workoutServiceRef.current = workoutService;
-  //   LogService.debug('start========================Home');
-  //   const tmpWorkouts = workoutService.getWorkouts();
-  //   checkNotificationsCallback(tmpWorkouts)
-  //     .then(workoutItem => processWorkoutsAndNotificationCallback(tmpWorkouts, workoutItem))
-  //     .catch(reason => {
-  //       LogService.info('checkNotifications error {0}', reason);
-  //       processWorkoutsAndNotificationCallback(tmpWorkouts, null);
-  //     });
-  //   // .finally(() =>
-  //   //   console.info(
-  //   //     'WorkoutAddEdit useEffect: ',
-  //   //     ProfilingHelper.getDifference(tsHandleAppStarted, ProfilingTSNames.HandleAppStarted),
-  //   //   ),
-  //   // )
-  // }, []);
+  useEffect(() => {
+    const registry = ServiceRegistry.getInstance();
+    const workoutService = registry.getService(WorkoutService.Basename) as WorkoutService;
+    workoutServiceRef.current = workoutService;
+    LogService.debug('start========================Home');
+    const tmpWorkouts = workoutService.getWorkouts();
+    // TODO yukseltme
+    // checkNotificationsCallback(tmpWorkouts)
+    //   .then(workoutItem => processWorkoutsAndNotificationCallback(tmpWorkouts, workoutItem))
+    //   .catch(reason => {
+    //     LogService.info('checkNotifications error {0}', reason);
+    //     processWorkoutsAndNotificationCallback(tmpWorkouts, null);
+    //   });
+    // // .finally(() =>
+    // //   console.info(
+    // //     'WorkoutAddEdit useEffect: ',
+    // //     ProfilingHelper.getDifference(tsHandleAppStarted, ProfilingTSNames.HandleAppStarted),
+    // //   ),
+    // // )
+  }, []);
 
   // const bottomMenuChangeStatus = useCallback((willOpen: boolean) => {
   //   // 'worklet';

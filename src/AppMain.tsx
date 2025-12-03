@@ -1,8 +1,8 @@
 // debugger;
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import App from './App';
-// import { store } from './store/Store';
-// import { Provider } from 'react-redux';
+import { store } from './store/Store';
+import { Provider } from 'react-redux';
 import { SoundService } from './services/SoundService';
 import { ServiceRegistry } from './services/ServiceRegistry';
 import { LogService } from './services/Log/LogService';
@@ -160,24 +160,26 @@ export default function AppMain() {
     content = (
       <>
         <SafeAreaProvider>
-          <RealmProvider
-            key={realmKey}
-            schema={[StatisticDoc, RuleDoc, RuleItemDoc, TrackDoc, SystemDoc]}
-            // deleteRealmIfMigrationNeeded={Config.isDebug == true ? true : false} // todo: dont upload like this.
-            schemaVersion={RealmSchemaVersion}
-            onMigration={RealmMigrationFunction}
-            migrationOptions={{ resolveEmbeddedConstraints: true }}
-            closeOnUnmount={false}>
-            <GestureHandlerRootView
-              style={{ flex: 1 }}
-              onLayout={event => {
-                // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
-              }}>
-              <GestureDetector gesture={native}>
-                <App />
-              </GestureDetector>
-            </GestureHandlerRootView>
-          </RealmProvider>
+          <Provider store={store}>
+            <RealmProvider
+              key={realmKey}
+              schema={[StatisticDoc, RuleDoc, RuleItemDoc, TrackDoc, SystemDoc]}
+              // deleteRealmIfMigrationNeeded={Config.isDebug == true ? true : false} // todo: dont upload like this.
+              schemaVersion={RealmSchemaVersion}
+              onMigration={RealmMigrationFunction}
+              migrationOptions={{ resolveEmbeddedConstraints: true }}
+              closeOnUnmount={false}>
+              <GestureHandlerRootView
+                style={{ flex: 1 }}
+                onLayout={event => {
+                  // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
+                }}>
+                <GestureDetector gesture={native}>
+                  <App />
+                </GestureDetector>
+              </GestureHandlerRootView>
+            </RealmProvider>
+          </Provider>
         </SafeAreaProvider>
         <Toast config={toastConfig} position="bottom" bottomOffset={70} />
       </>
