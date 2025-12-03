@@ -3,7 +3,7 @@ import { ColorConstants } from './constants/StyleConstants';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainStackScreen } from './views/Screens/MainStackScreen';
-// import { SettingStackScreen } from './views/Screens/SettingStackScreen';
+import { SettingStackScreen } from './views/Screens/SettingStackScreen';
 // import { useInitializeTts } from './hooks/useInitializeTts';
 import AntSettingsIcon from 'react-native-vector-icons/AntDesign';
 import EntypoHomeIcon from 'react-native-vector-icons/Entypo';
@@ -50,7 +50,8 @@ export default function App() {
   return (
     <NavigationContainer ref={navigationRef} theme={customTheme}>
       <TabNavigator.Navigator
-        // initialRouteName={Config.isDebug ? 'Test' : undefined}
+        initialRouteName={TabScreenName.main}
+        // initialRouteName={Config.isDebug ? 'Test' : undefined} // TODO yukseltme
         screenOptions={({ route, navigation }) => ({
           // tabBarIcon: ({focused, color, size}) => {
           //   if (route.name === 'Main') {
@@ -104,9 +105,7 @@ export default function App() {
             };
           }}
         />
-        {
-          /**
-                   <TabNavigator.Screen
+        <TabNavigator.Screen
           name={TabScreenName.settings}
           component={SettingStackScreen}
           options={{
@@ -115,20 +114,21 @@ export default function App() {
             },
           }}
         />
-        {
-          Config.isDebug &&
-          (
-            <TabNavigator.Screen
-              name="Test"
-              component={TestStackScreen}
-              options={{
-                tabBarIcon: ({ focused, color, size }) => {
-                  return <AntSettingsIcon name="medicinebox" size={size} color={color} />;
-                },
-              }}
-            />
-          )}
-           */
+        {  /**
+         {
+           Config.isDebug &&
+           (
+             <TabNavigator.Screen
+               name="Test"
+               component={TestStackScreen}
+               options={{
+                 tabBarIcon: ({ focused, color, size }) => {
+                   return <AntSettingsIcon name="medicinebox" size={size} color={color} />;
+                 },
+               }}
+             />
+           )}
+            */
         }
 
       </TabNavigator.Navigator>

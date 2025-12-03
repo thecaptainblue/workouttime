@@ -1,5 +1,5 @@
 import { StringBuilder } from "typescript-string-operations";
-// import { LogService } from "../services/Log/LogService";
+import { LogService } from "../services/Log/LogService";
 
 // export function runFunc<Args extends unknown[], ReturnValue>(func: (...args: Args) => ReturnValue): (...args: Args) => void {
 //     return function (...argsNew: Args) {
@@ -215,7 +215,7 @@ export function logError(e: any, name?: string) {
         errorMessage = `${name} ${errorMessage}`;
     }
 
-    // LogService.error(errorMessage); // todo: yukseltme 
+    LogService.error(errorMessage);
     if (willConsolePrinted) {
         console.log(e);
     }
