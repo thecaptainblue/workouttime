@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">workouttime</string>
+    <string name="app_name">Workout Time</string>
+    <string name="action_indicator">Action indicator</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="drag_handle_description">drag</string>
+    <string name="edit_button_description">Edit</string>
+    <string name="delete_button_description">delete</string>
 </resources>

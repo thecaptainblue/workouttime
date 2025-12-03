@@ -30,7 +30,7 @@ import { toastConfig } from './helper/ToastConfig';
 // import { StatisticDoc } from './persistence/StatisticDoc';
 // import { RuleDoc } from './persistence/RuleDoc';
 // import { RuleItemDoc } from './persistence/RuleItemDoc';
-// import Config from './@types/config/Config';
+import Config from './@types/config/Config';
 // import { TrackDoc } from './persistence/TrackDoc';
 // import { RealmMigrationFunction, RealmSchemaVersion } from './persistence/RealmMigration';
 // import mobileAds from 'react-native-google-mobile-ads';

@@ -23,6 +23,11 @@ react {
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
     // debuggableVariants = ["liteDebug", "prodDebug"]
 
+     // telefonda wifi debugin calisabilmesi icin bundlein yuklenebilmesine ihtiyac var.
+    if(project.properties['relVariant']=="dev"){
+       debuggableVariants = []
+    }
+
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
     // nodeExecutableAndArgs = ["node"]
@@ -71,6 +76,13 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
+def defDevSuffix = '.dev'
+
+def defAdMobAppIdTest = "ca-app-pub-3940256099942544~3347511713"
+def defAdMobAppIdReal = "ca-app-pub-3296528455458313~7490001760" 
+
+def defAdMobUnitIdInterstitialTest = '"ca-app-pub-3940256099942544/1033173712"'
+def defAdMobUnitIdInterstitialReal = '"ca-app-pub-3296528455458313/8096506425"'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -84,6 +96,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 30
         versionName "1.0.0"
+        // manifestPlaceholders = [adMobAppId: defAdMobAppIdTest] // TODO yukseltme admob degisikliginde ekleyecegim
+        // buildConfigField "String", "ADUNITID", defAdMobUnitIdInterstitialTest
     }
     signingConfigs {
         debug {
@@ -92,15 +106,41 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
+            applicationIdSuffix defDevSuffix
+            resValue "string", "app_name", "WT DEV"
             signingConfig signingConfigs.debug
+            // config kutuphanesinin calismasi icin build_config_package ,namespace ile ayni olmali (applicationIdSuffix eklenince degisiyor).
+            resValue "string", "build_config_package", "com.workouttime" 
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // // Caution! In production, you need to generate your own keystore file.
+            // // see https://reactnative.dev/docs/signed-apk-android.
+            // signingConfig signingConfigs.debug
+
+            if(project.properties['varVariant']=="relvar"){
+                resValue "string", "app_name", "WTRelVar"
+                applicationIdSuffix ".relvar"
+                signingConfig signingConfigs.debug
+                // config kutuphanesinin calismasi icin build_config_package ,namespace ile ayni olmali (applicationIdSuffix eklenince degisiyor).
+                resValue "string", "build_config_package", "com.workouttime" 
+            }else {
+                // production release
+                signingConfig signingConfigs.release
+                //  manifestPlaceholders = [adMobAppId: defAdMobAppIdReal] // TODO yukseltme admob degisikliginde ekleyecegim
+                //  buildConfigField "String", "ADUNITID", defAdMobUnitIdInterstitialReal // TODO yukseltme admob degisikliginde ekleyecegim
+            }
+
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -124,3 +164,10 @@ dependencies {
 
 // vector-icons larin calismasi icin gerekli
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+
+project.ext.envConfigFiles = [
+    debug: ".env.debug",
+    release: ".env",
+]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

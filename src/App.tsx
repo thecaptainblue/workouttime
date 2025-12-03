@@ -16,7 +16,7 @@ import { LogService } from './services/Log/LogService';
 import { navigationRef } from './helper/RootNavigation';
 import { Text } from 'react-native';
 // import { TestStackScreen } from './views/Screens/TestStackScreen';
-// import Config from './@types/config/Config';
+import Config from './@types/config/Config';
 
 const customTheme = {
   ...DarkTheme,
@@ -42,11 +42,11 @@ export default function App() {
   // useInitializeTts();
   // useInitializeInternationalization();
   // // console.log('ScreenNames.MainHome: ', ScreenNames.MainHome);
-  // if (Config.configType != null && Config.configType != undefined) {
-  //   LogService.infoFormat('rerender App configType:{0} , Config.isDebug:{1}', Config.configType, Config.isDebug);
-  // } else {
-  //   console.info('rerender App configType:couldnt read !!', Config.configType);
-  // }
+  if (Config.configType != null && Config.configType != undefined) {
+    LogService.infoFormat('rerender App configType:{0} , Config.isDebug:{1}', Config.configType, Config.isDebug);
+  } else {
+    console.info('rerender App configType:couldnt read !!', Config.configType);
+  }
   return (
     <NavigationContainer ref={navigationRef} theme={customTheme}>
       <TabNavigator.Navigator

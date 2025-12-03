@@ -1,6 +1,6 @@
 {
   "name": "workouttime",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -9,7 +9,11 @@
     "start": "react-native start",
     "test": "jest",
     "check-npm": "npm --version",
-    "wt-debug": "npx react-native run-android --active-arch-only"
+    "wt-debug": "npx react-native run-android --active-arch-only --appIdSuffix dev",
+    "wt-rel-variant": "npx react-native run-android --mode release --active-arch-only --appIdSuffix relvar --extra-params \"-PvarVariant=relvar\" ",
+    "wt-release": "npx react-native run-android --mode release --active-arch-only",
+    "wt-bundle": "npx react-native build-android --mode release",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.81.5",
@@ -23,6 +27,7 @@
     "react": "19.1.0",
     "react-i18next": "^16.3.5",
     "react-native": "0.81.5",
+    "react-native-config": "^1.6.1",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.29.1",
     "react-native-get-random-values": "^2.0.0",
