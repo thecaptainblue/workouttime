@@ -26,7 +26,7 @@ import { WorkoutService } from '../../services/WorkoutService';
 // import { v4 } from 'uuid';
 import { WorkoutHelper } from '../../@types/Data/WorkoutHelper';
 // import { AddWorkout, AddWorkouts, PayloadAddWorkout, PayloadAddWorkouts } from '../../store/features/workoutsSlice';
-// import Toast from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 // import { ExportImportHelper } from '../../helper/WorkoutExportImportHelper';
 import { WorkoutData } from '../../@types/Data/WorkoutData';
 // import { useRealm } from '@realm/react';

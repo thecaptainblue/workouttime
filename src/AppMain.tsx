@@ -24,8 +24,8 @@ import { scheduleOnRN } from 'react-native-worklets';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LogHelper from './helper/LogHelper';
-// import Toast from 'react-native-toast-message';
-// import { toastConfig } from './helper/ToastConfig';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from './helper/ToastConfig';
 // import { RealmProvider } from '@realm/react';
 // import { StatisticDoc } from './persistence/StatisticDoc';
 // import { RuleDoc } from './persistence/RuleDoc';
@@ -168,6 +168,7 @@ export default function AppMain() {
             <App />
           </GestureDetector>
         </GestureHandlerRootView>
+        <Toast config={toastConfig} position="bottom" bottomOffset={70} />
       </>
     );
   } else {
