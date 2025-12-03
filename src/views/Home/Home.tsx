@@ -16,7 +16,7 @@ import { WorkoutData } from '../../@types/Data/WorkoutData';
 //   selectWorkouts,
 // } from '../../store/features/workoutsSlice';
 import { WorkoutHelper } from '../../@types/Data/WorkoutHelper';
-// import { v4 } from 'uuid';
+import { v4 } from 'uuid';
 // import { SetSingleWorkout } from '../../store/features/workoutSingleSlice';
 import { PageType } from '../../@types/PageType';
 import { FloatingButton } from '../../components/FloatingButton';
@@ -26,19 +26,19 @@ import { useAnimatedReaction, useAnimatedStyle, useDerivedValue, useSharedValue 
 import useUpdatedRef from '../../hooks/useUpdatedRef';
 import { ScreenNames } from '../Screens/ScreenNames';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import { ResKey } from '../../lang/ResKey';
-// import { useTranslation } from 'react-i18next';
+import { ResKey } from '../../lang/ResKey';
+import { useTranslation } from 'react-i18next';
 // import notifee from '@notifee/react-native';
 // import { notifDeleteNotificationsByNotificationDatas } from '../../helper/NotificationHelper';
 // import { useProcessBackgroundNotification } from '../../hooks/notification/useProcessBackgroundNotification';
 import { logError } from '../../helper/LogHelper';
 // import { useProcessForegroundNotification } from '../../hooks/notification/useProcessForegroundNotification';
-// import { StatisticDocHelper } from '../../persistence/StatisticDocHelper';
-// import { useRealm } from '@realm/react';
+import { StatisticDocHelper } from '../../persistence/StatisticDocHelper';
+import { useRealm } from '@realm/react';
 // import FastList, { FastListEventType, FastListItemData, FastListViewRefProps } from '../../components/native/FastList';
 // import { FastListHelper } from '../../helper/FastListHelper';
 import { StringBuilder } from 'typescript-string-operations';
-// import { SystemDocHelper } from '../../persistence/SystemDocHelper';
+import { SystemDocHelper } from '../../persistence/SystemDocHelper';
 
 type HomeProps = NativeStackScreenProps<MainStackParamList, ScreenNames.MainHome>;
 
@@ -48,17 +48,17 @@ export default function Home(props: HomeProps) {
   // const workouts = useSelector(selectWorkouts);
   // // const workouts: WorkoutData[] = [];
   // const workoutsRef = useUpdatedRef(workouts);
-  // const navigationRef = useUpdatedRef(props.navigation);
+  const navigationRef = useUpdatedRef(props.navigation);
   // const dispatch = useDispatch();
   const isDragActive = useSharedValue(false);
-  // const workoutServiceRef = useRef<WorkoutService | null>(null);
+  const workoutServiceRef = useRef<WorkoutService | null>(null);
   // const bottomMenuRef = useRef<BottomMenuWorkoutItemRefProps | null>(null);
-  // const selectedItemIdRef = useRef<string | null>(null);
-  // const bottomMenuOpenStatusObserver = useSharedValue(false);
-  // const emptyListLabel = useSharedValue('');
-  // const { t } = useTranslation();
-  // const realm = useRealm();
-  // const [isThereNotification, setIsThereNotification] = useState<boolean | null>(null);
+  const selectedItemIdRef = useRef<string | null>(null);
+  const bottomMenuOpenStatusObserver = useSharedValue(false);
+  const emptyListLabel = useSharedValue('');
+  const { t } = useTranslation();
+  const realm = useRealm();
+  const [isThereNotification, setIsThereNotification] = useState<boolean | null>(null);
   // const fastListRef = useRef<FastListViewRefProps | null>(null);
   // // const tsHandleAppStarted = useSelector(state => selectTS(state, ProfilingTSNames.HandleAppStarted));
   // useProcessForegroundNotification();
@@ -118,23 +118,23 @@ export default function Home(props: HomeProps) {
   //   [],
   // );
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   const systemDoc = SystemDocHelper.getSystem(realm)
-  //   LogService.debug('Home========================checkFirstUsage isFirstUsage', systemDoc?.isFirstUsage);
-  //   if (systemDoc == null || systemDoc.isFirstUsage) {
-  //     LogService.info('Home========================firstUsage');
-  //     const registry = ServiceRegistry.getInstance();
-  //     const workoutService = registry.getService(WorkoutService.Basename) as WorkoutService;
-  //     workoutServiceRef.current = workoutService;
-  //     let tmpWorkouts = workoutService.getWorkouts();
-  //     if (tmpWorkouts == null || tmpWorkouts.length == 0) {
-  //       tmpWorkouts = WorkoutService.getInitialWorkouts();
-  //       workoutService.changeWorkouts(tmpWorkouts)
-  //     }
-  //     SystemDocHelper.addUpdateSystem(realm, false)
-  //   }
-  // }, []);
+    const systemDoc = SystemDocHelper.getSystem(realm)
+    LogService.debug('Home========================checkFirstUsage isFirstUsage', systemDoc?.isFirstUsage);
+    if (systemDoc == null || systemDoc.isFirstUsage) {
+      LogService.info('Home========================firstUsage');
+      const registry = ServiceRegistry.getInstance();
+      const workoutService = registry.getService(WorkoutService.Basename) as WorkoutService;
+      workoutServiceRef.current = workoutService;
+      let tmpWorkouts = workoutService.getWorkouts();
+      if (tmpWorkouts == null || tmpWorkouts.length == 0) {
+        tmpWorkouts = WorkoutService.getInitialWorkouts();
+        workoutService.changeWorkouts(tmpWorkouts)
+      }
+      SystemDocHelper.addUpdateSystem(realm, false)
+    }
+  }, []);
 
 
   // useEffect(() => {

@@ -16,14 +16,17 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@js-joda/core": "^5.6.5",
     "@react-native/new-app-screen": "0.81.5",
     "@react-navigation/bottom-tabs": "^7.8.8",
     "@react-navigation/elements": "^2.8.4",
     "@react-navigation/native": "^7.1.22",
     "@react-navigation/native-stack": "^7.8.2",
+    "@realm/react": "^0.20.0",
     "@types/uuid": "^10.0.0",
     "i18next": "^25.7.1",
     "js-base64": "^3.7.8",
+    "lodash": "^4.17.21",
     "react": "19.1.0",
     "react-i18next": "^16.3.5",
     "react-native": "0.81.5",
@@ -42,6 +45,7 @@
     "react-native-toast-message": "^2.3.3",
     "react-native-vector-icons": "^10.3.0",
     "react-native-worklets": "^0.6.1",
+    "realm": "^20.2.0",
     "typescript-string-operations": "^1.6.1",
     "uuid": "^13.0.0"
   },

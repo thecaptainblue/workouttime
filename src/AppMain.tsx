@@ -26,16 +26,16 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LogHelper from './helper/LogHelper';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './helper/ToastConfig';
-// import { RealmProvider } from '@realm/react';
-// import { StatisticDoc } from './persistence/StatisticDoc';
-// import { RuleDoc } from './persistence/RuleDoc';
-// import { RuleItemDoc } from './persistence/RuleItemDoc';
+import { RealmProvider } from '@realm/react';
+import { StatisticDoc } from './persistence/StatisticDoc';
+import { RuleDoc } from './persistence/RuleDoc';
+import { RuleItemDoc } from './persistence/RuleItemDoc';
 import Config from './@types/config/Config';
-// import { TrackDoc } from './persistence/TrackDoc';
-// import { RealmMigrationFunction, RealmSchemaVersion } from './persistence/RealmMigration';
+import { TrackDoc } from './persistence/TrackDoc';
+import { RealmMigrationFunction, RealmSchemaVersion } from './persistence/RealmMigration';
 // import mobileAds from 'react-native-google-mobile-ads';
 // import { AdProvider } from './providers/AdProvider';
-// import { SystemDoc } from './persistence/SystemDoc';
+import { SystemDoc } from './persistence/SystemDoc';
 
 export const AppConstants = {
   windowWidth: Dimensions.get('window').width,
@@ -45,7 +45,7 @@ export const AppConstants = {
 export default function AppMain() {
   const registryRef = useRef(ServiceRegistry.getInstance());
   const [isInitialized, setInitialized] = useState(false);
-  // const [realmKey, setRealmKey] = useState(0);
+  const [realmKey, setRealmKey] = useState(0);
 
   useEffect(() => {
     LogService.debug('start========================AppMain initialize');
@@ -91,15 +91,15 @@ export default function AppMain() {
     }
   }, [isInitialized]);
 
-  // useEffect(() => {
-  //   const listener = DeviceEventEmitter.addListener(EventName.RealmEventReopen, () => {
-  //     LogService.infoFormat('AppMain useEffect; change realm key {0}', realmKey);
-  //     setRealmKey(currentKey => currentKey + 1);
-  //   });
-  //   return () => {
-  //     listener.remove();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const listener = DeviceEventEmitter.addListener(EventName.RealmEventReopen, () => {
+      LogService.infoFormat('AppMain useEffect; change realm key {0}', realmKey);
+      setRealmKey(currentKey => currentKey + 1);
+    });
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   const throwEvent = useCallback((event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
     DeviceEventEmitter.emit(EventName.TouchedEvent, event);
@@ -160,15 +160,24 @@ export default function AppMain() {
     content = (
       <>
         <SafeAreaProvider>
-          <GestureHandlerRootView
-            style={{ flex: 1 }}
-            onLayout={event => {
-              // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
-            }}>
-            <GestureDetector gesture={native}>
-              <App />
-            </GestureDetector>
-          </GestureHandlerRootView>
+          <RealmProvider
+            key={realmKey}
+            schema={[StatisticDoc, RuleDoc, RuleItemDoc, TrackDoc, SystemDoc]}
+            // deleteRealmIfMigrationNeeded={Config.isDebug == true ? true : false} // todo: dont upload like this.
+            schemaVersion={RealmSchemaVersion}
+            onMigration={RealmMigrationFunction}
+            migrationOptions={{ resolveEmbeddedConstraints: true }}
+            closeOnUnmount={false}>
+            <GestureHandlerRootView
+              style={{ flex: 1 }}
+              onLayout={event => {
+                // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
+              }}>
+              <GestureDetector gesture={native}>
+                <App />
+              </GestureDetector>
+            </GestureHandlerRootView>
+          </RealmProvider>
         </SafeAreaProvider>
         <Toast config={toastConfig} position="bottom" bottomOffset={70} />
       </>
