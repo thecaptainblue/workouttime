@@ -1,12 +1,12 @@
 import { PermissionsAndroid, Platform, NativeModules } from "react-native";
 import { JsHelper } from "./JsHelper";
-// import Toast from "react-native-toast-message";
+import Toast from "react-native-toast-message";
 import i18n from 'i18next'
 import { ResKey } from "../lang/ResKey";
 import { LogService } from "../services/Log/LogService";
 // import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
 import { logError } from "./LogHelper";
-// import { Base64 } from 'js-base64';
+import { Base64 } from 'js-base64';
 import { WorkoutExportData } from "../@types/Data/WorkoutExportData";
 import RNFS from 'react-native-fs';
 
