@@ -3,6 +3,7 @@ import { ColorConstants, SizeConstants } from '../constants/StyleConstants';
 import { OverlayState, OverlayView, StateOpacityArray } from './OverlayView';
 import Animated, {
   SharedValue,
+  useAnimatedProps,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -10,7 +11,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useCallback, useMemo, useState } from 'react';
 import { FormButtonOverlayOpacities } from './form/FormConstants';
-import { scheduleOnRN } from 'react-native-worklets';
+// Removed as it's no longer needed for prop syncing
+// import { scheduleOnRN } from 'react-native-worklets'; 
 
 export interface ButtonWTIconProps extends PressableProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -76,11 +78,13 @@ export function ButtonWTIcon(props: ButtonWTIconProps) {
     return result;
   }, [disabled]);
 
-  const [isDisabledState, setIsDisabledState] = useState<boolean | null | undefined>(disabledDerived.value);
-
-  useDerivedValue(() => {
-    scheduleOnRN(setIsDisabledState, disabledDerived.value);
-  });
+  // --------------------------------------------------------------------------------------------------
+  // REMOVED:
+  // const [isDisabledState, setIsDisabledState] = useState<boolean | null | undefined>(disabledDerived.value);
+  // useDerivedValue(() => {
+  //   scheduleOnRN(setIsDisabledState, disabledDerived.value);
+  // });
+  // --------------------------------------------------------------------------------------------------
 
   useAnimatedReaction(
     () => {
@@ -111,10 +115,10 @@ export function ButtonWTIcon(props: ButtonWTIconProps) {
     };
   }, []);
 
-  // const animatedProps = useAnimatedProps(() => {
-  //   console.log('animatedProps isDisabled ', isDisabled?.value);
-  //   return {disabled: isDisabled?.value};
-  // });
+  const animatedProps = useAnimatedProps(() => {
+    // We use the derived shared value to set the non-animated 'disabled' prop
+    return { disabled: disabledDerived.value };
+  }, []);
 
   return (
     <AnimatedPressable
@@ -123,9 +127,9 @@ export function ButtonWTIcon(props: ButtonWTIconProps) {
       onPress={props.onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      // disabled={isDisabled}
-      disabled={isDisabledState}
-    // animatedProps={animatedProps}
+      // Removed the static disabled prop assignment
+      // disabled={isDisabledState} 
+      animatedProps={animatedProps}
     >
       {children}
       <OverlayView state={overlayState} viewStyle={[styles.overlay, overlayStyle]} customOpacities={overlayOpacities} />
