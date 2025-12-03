@@ -28,11 +28,11 @@ import { ScreenNames } from '../Screens/ScreenNames';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ResKey } from '../../lang/ResKey';
 import { useTranslation } from 'react-i18next';
-// import notifee from '@notifee/react-native';
-// import { notifDeleteNotificationsByNotificationDatas } from '../../helper/NotificationHelper';
-// import { useProcessBackgroundNotification } from '../../hooks/notification/useProcessBackgroundNotification';
+import notifee from '@notifee/react-native';
+import { notifDeleteNotificationsByNotificationDatas } from '../../helper/NotificationHelper';
+import { useProcessBackgroundNotification } from '../../hooks/notification/useProcessBackgroundNotification';
 import { logError } from '../../helper/LogHelper';
-// import { useProcessForegroundNotification } from '../../hooks/notification/useProcessForegroundNotification';
+import { useProcessForegroundNotification } from '../../hooks/notification/useProcessForegroundNotification';
 import { StatisticDocHelper } from '../../persistence/StatisticDocHelper';
 import { useRealm } from '@realm/react';
 // import FastList, { FastListEventType, FastListItemData, FastListViewRefProps } from '../../components/native/FastList';
@@ -62,32 +62,32 @@ export default function Home(props: HomeProps) {
   const [isThereNotification, setIsThereNotification] = useState<boolean | null>(null);
   // const fastListRef = useRef<FastListViewRefProps | null>(null);
   // // const tsHandleAppStarted = useSelector(state => selectTS(state, ProfilingTSNames.HandleAppStarted));
-  // useProcessForegroundNotification();
-  // useProcessBackgroundNotification(navigationRef.current);
+  useProcessForegroundNotification();
+  useProcessBackgroundNotification(navigationRef.current);
   // // useObserveAppState();
 
-  // const checkNotificationsCallback = useCallback(
-  //   async (tmpWorkouts: WorkoutData[] | null): Promise<WorkoutData | null> => {
-  //     LogService.debugFormat('checkNotifications, appState:  {0} ', AppState.currentState);
-  //     const initialNotification = await notifee.getInitialNotification();
-  //     let workout: WorkoutData | null = null;
-  //     if (initialNotification) {
-  //       console.log('Notification caused application to open', initialNotification.notification);
-  //       console.log('Press action used to open the app', initialNotification.pressAction);
+  const checkNotificationsCallback = useCallback(
+    async (tmpWorkouts: WorkoutData[] | null): Promise<WorkoutData | null> => {
+      LogService.debugFormat('checkNotifications, appState:  {0} ', AppState.currentState);
+      const initialNotification = await notifee.getInitialNotification();
+      let workout: WorkoutData | null = null;
+      if (initialNotification) {
+        console.log('Notification caused application to open', initialNotification.notification);
+        console.log('Press action used to open the app', initialNotification.pressAction);
 
-  //       const workoutId = initialNotification.notification.data?.workoutid;
-  //       if (workoutId != null && workoutId !== '') {
-  //         const tmpWorkout = tmpWorkouts?.find(item => item.id === workoutId);
-  //         if (tmpWorkout != null) {
-  //           workout = tmpWorkout;
-  //         }
-  //         // LogService.infoFormat('checkNotifications workout {0}', LogHelper.toString(workout));
-  //       }
-  //     }
-  //     return workout;
-  //   },
-  //   [],
-  // );
+        const workoutId = initialNotification.notification.data?.workoutid;
+        if (workoutId != null && workoutId !== '') {
+          const tmpWorkout = tmpWorkouts?.find(item => item.id === workoutId);
+          if (tmpWorkout != null) {
+            workout = tmpWorkout;
+          }
+          // LogService.infoFormat('checkNotifications workout {0}', LogHelper.toString(workout));
+        }
+      }
+      return workout;
+    },
+    [],
+  );
 
   const setWorkoutsCallback = useCallback((workouts: WorkoutData[] | null) => {
     if (workouts != null) {
@@ -144,19 +144,18 @@ export default function Home(props: HomeProps) {
     workoutServiceRef.current = workoutService;
     LogService.debug('start========================Home');
     const tmpWorkouts = workoutService.getWorkouts();
-    // TODO yukseltme
-    // checkNotificationsCallback(tmpWorkouts)
-    //   .then(workoutItem => processWorkoutsAndNotificationCallback(tmpWorkouts, workoutItem))
-    //   .catch(reason => {
-    //     LogService.info('checkNotifications error {0}', reason);
-    //     processWorkoutsAndNotificationCallback(tmpWorkouts, null);
-    //   });
-    // // .finally(() =>
-    // //   console.info(
-    // //     'WorkoutAddEdit useEffect: ',
-    // //     ProfilingHelper.getDifference(tsHandleAppStarted, ProfilingTSNames.HandleAppStarted),
-    // //   ),
-    // // )
+    checkNotificationsCallback(tmpWorkouts)
+      .then(workoutItem => processWorkoutsAndNotificationCallback(tmpWorkouts, workoutItem))
+      .catch(reason => {
+        LogService.info('checkNotifications error {0}', reason);
+        processWorkoutsAndNotificationCallback(tmpWorkouts, null);
+      });
+    // .finally(() =>
+    //   console.info(
+    //     'WorkoutAddEdit useEffect: ',
+    //     ProfilingHelper.getDifference(tsHandleAppStarted, ProfilingTSNames.HandleAppStarted),
+    //   ),
+    // )
   }, []);
 
   const bottomMenuChangeStatus = useCallback((willOpen: boolean) => {
@@ -250,7 +249,7 @@ export default function Home(props: HomeProps) {
       let workout: WorkoutData = workoutsRef.current.find(item => item.id === id) as WorkoutData;
       // NotificationHelper.de
       // LogService.infoFormat('handleSwipeRight delete notifications: {0}', LogHelper.toString(workout.notifications));
-      // notifDeleteNotificationsByNotificationDatas(workout.notifications); // TODO yukseltme
+      notifDeleteNotificationsByNotificationDatas(workout.notifications);
       StatisticDocHelper.deleteStatistic(realm, id);
     } catch (error) {
       logError(error);

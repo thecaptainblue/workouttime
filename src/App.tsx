@@ -7,7 +7,7 @@ import { SettingStackScreen } from './views/Screens/SettingStackScreen';
 // import { useInitializeTts } from './hooks/useInitializeTts';
 import AntSettingsIcon from 'react-native-vector-icons/AntDesign';
 import EntypoHomeIcon from 'react-native-vector-icons/Entypo';
-// import { useInitializeInternationalization } from './hooks/useInitializeInternationalization';
+import { useInitializeInternationalization } from './hooks/useInitializeInternationalization';
 import { DarkTheme } from '@react-navigation/native';
 import { ScreenNames } from './views/Screens/ScreenNames';
 import { NavHelper } from './helper/NavHelper';
@@ -40,7 +40,7 @@ export default function App() {
   // const dispatch = useDispatch();
   // dispatch(setTS({key: ProfilingTSNames.HandleAppStarted, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS));
   // useInitializeTts();
-  // useInitializeInternationalization();
+  useInitializeInternationalization();
   // // console.log('ScreenNames.MainHome: ', ScreenNames.MainHome);
   if (Config.configType != null && Config.configType != undefined) {
     LogService.infoFormat('rerender App configType:{0} , Config.isDebug:{1}', Config.configType, Config.isDebug);
