@@ -159,15 +159,17 @@ export default function AppMain() {
   if (isInitialized) {
     content = (
       <>
-        <GestureHandlerRootView
-          style={{ flex: 1 }}
-          onLayout={event => {
-            // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
-          }}>
-          <GestureDetector gesture={native}>
-            <App />
-          </GestureDetector>
-        </GestureHandlerRootView>
+        <SafeAreaProvider>
+          <GestureHandlerRootView
+            style={{ flex: 1 }}
+            onLayout={event => {
+              // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
+            }}>
+            <GestureDetector gesture={native}>
+              <App />
+            </GestureDetector>
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
         <Toast config={toastConfig} position="bottom" bottomOffset={70} />
       </>
     );

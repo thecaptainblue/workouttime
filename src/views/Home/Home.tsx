@@ -384,7 +384,7 @@ export default function Home(props: HomeProps) {
         onLayout={event => {
           // console.log('Home-containerGestureHandler ', LogHelper.toString(event.nativeEvent.layout));
         }}> */}
-      <Text> hello home</Text>
+      <Text style={{ color: "white" }}> hello home</Text>
       {
         /**
             <View style={styles.containerScroll}>
