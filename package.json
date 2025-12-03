@@ -17,6 +17,7 @@
     "@react-navigation/elements": "^2.8.4",
     "@react-navigation/native": "^7.1.22",
     "@react-navigation/native-stack": "^7.8.2",
+    "@types/uuid": "^10.0.0",
     "i18next": "^25.7.1",
     "js-base64": "^3.7.8",
     "react": "19.1.0",
