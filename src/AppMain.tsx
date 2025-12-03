@@ -20,7 +20,7 @@ import {
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { EventName } from './@types/EventNames';
-// import { runOnJS } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LogHelper from './helper/LogHelper';
@@ -101,9 +101,9 @@ export default function AppMain() {
   //   };
   // }, []);
 
-  // const throwEvent = useCallback((event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
-  //   DeviceEventEmitter.emit(EventName.TouchedEvent, event);
-  // }, []);
+  const throwEvent = useCallback((event: GestureStateChangeEvent<TapGestureHandlerEventPayload>) => {
+    DeviceEventEmitter.emit(EventName.TouchedEvent, event);
+  }, []);
 
   const native = Gesture.Tap()
     .numberOfTaps(5) // tek tik oldugunda nedense soft back buttonu calismaz hale getiriyor.
@@ -114,7 +114,7 @@ export default function AppMain() {
       //   event.x.toFixed(2),
       //   event.y.toFixed(2),
       // );
-      // runOnJS(throwEvent)(event); // TODO yukseltme reanimated yuklendiginde acacagim.
+      scheduleOnRN(throwEvent, event);
     });
 
   LogService.debug('AppMain========================render');

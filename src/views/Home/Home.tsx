@@ -3,9 +3,9 @@ import { AppState, StyleSheet, Text, View } from 'react-native';
 // import { DraggableScrolSizeConstants } from '../../constants/StyleConstants';
 import { MainStackParamList } from '../../@types/MainStackParamList';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-// import { WorkoutService } from '../../services/WorkoutService';
-// import { LogService } from '../../services/Log/LogService';
-// import { ServiceRegistry } from '../../services/ServiceRegistry';
+import { WorkoutService } from '../../services/WorkoutService';
+import { LogService } from '../../services/Log/LogService';
+import { ServiceRegistry } from '../../services/ServiceRegistry';
 import { WorkoutData } from '../../@types/Data/WorkoutData';
 // import { useDispatch, useSelector } from 'react-redux';
 // import {
@@ -19,9 +19,9 @@ import { WorkoutHelper } from '../../@types/Data/WorkoutHelper';
 // import { v4 } from 'uuid';
 // import { SetSingleWorkout } from '../../store/features/workoutSingleSlice';
 import { PageType } from '../../@types/PageType';
-// import { FloatingButton } from '../../components/FloatingButton';
+import { FloatingButton } from '../../components/FloatingButton';
 // import { BottomMenuWorkoutItem, BottomMenuWorkoutItemRefProps } from '../../components/BottomMenu/BottomMenuWorkout';
-// import { runOnJS, useAnimatedReaction, useAnimatedStyle, useDerivedValue, useSharedValue } from 'react-native-reanimated';
+import { useAnimatedReaction, useAnimatedStyle, useDerivedValue, useSharedValue } from 'react-native-reanimated';
 // import { ListInsertionPositionType } from '../../components/BottomMenu/ListInsertionPositionType';
 import useUpdatedRef from '../../hooks/useUpdatedRef';
 import { ScreenNames } from '../Screens/ScreenNames';
@@ -50,7 +50,7 @@ export default function Home(props: HomeProps) {
   // const workoutsRef = useUpdatedRef(workouts);
   // const navigationRef = useUpdatedRef(props.navigation);
   // const dispatch = useDispatch();
-  // const isDragActive = useSharedValue(false);
+  const isDragActive = useSharedValue(false);
   // const workoutServiceRef = useRef<WorkoutService | null>(null);
   // const bottomMenuRef = useRef<BottomMenuWorkoutItemRefProps | null>(null);
   // const selectedItemIdRef = useRef<string | null>(null);
@@ -211,21 +211,21 @@ export default function Home(props: HomeProps) {
   //     }
   //   },
   // );
-  // const handleAdd = useCallback(() => {
-  //   LogService.debug('handleAdd: ');
-  //   // dispatch(setTS({key: ProfilingTSNames.HandleAddClicked, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS));
-  //   let workout: WorkoutData = WorkoutHelper.createWorkout(v4(), '');
-  //   dispatch(SetSingleWorkout(workout));
-  //   // LogService.debug('handleAdd navigate request: ' + TimeHelper.timeStampNow());
-  //   // dispatch(
-  //   //   setTS({key: ProfilingTSNames.HandleAddNavigateRequest, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS),
-  //   // );
-  //   props.navigation.navigate(ScreenNames.MainWorkoutAddEdit, { pageType: PageType.Add });
-  //   // LogService.debug('handleAdd navigate requested ts:' + TimeHelper.timeStampNow());
-  //   // dispatch(
-  //   //   setTS({key: ProfilingTSNames.HandleAddNavigateRequested, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS),
-  //   // );
-  // }, []);
+  const handleAdd = useCallback(() => {
+    LogService.debug('handleAdd: ');
+    //   // dispatch(setTS({key: ProfilingTSNames.HandleAddClicked, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS));
+    //   let workout: WorkoutData = WorkoutHelper.createWorkout(v4(), '');
+    //   dispatch(SetSingleWorkout(workout));
+    //   // LogService.debug('handleAdd navigate request: ' + TimeHelper.timeStampNow());
+    //   // dispatch(
+    //   //   setTS({key: ProfilingTSNames.HandleAddNavigateRequest, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS),
+    //   // );
+    //   props.navigation.navigate(ScreenNames.MainWorkoutAddEdit, { pageType: PageType.Add });
+    //   // LogService.debug('handleAdd navigate requested ts:' + TimeHelper.timeStampNow());
+    //   // dispatch(
+    //   //   setTS({key: ProfilingTSNames.HandleAddNavigateRequested, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS),
+    //   // );
+  }, []);
 
   // const handleSwipeLeft = useCallback((id: string) => {
   //   LogService.debug('handleSwipeLeft: ', id);
@@ -360,9 +360,9 @@ export default function Home(props: HomeProps) {
   //   }
   // }, []);
 
-  // const floatingButtonContainerAnimStyle = useAnimatedStyle(() => {
-  //   return { display: isDragActive.value ? 'none' : 'flex' };
-  // }, []);
+  const floatingButtonContainerAnimStyle = useAnimatedStyle(() => {
+    return { display: isDragActive.value ? 'none' : 'flex' };
+  }, []);
 
   // const willDisplay = isThereNotification == false;
 
@@ -396,7 +396,11 @@ export default function Home(props: HomeProps) {
         emptyListLabel={emptyListLabel}
       />
     </View>
-    <FloatingButton containerStyle={floatingButtonContainerAnimStyle} onPress={handleAdd} />
+           */
+      }
+      <FloatingButton containerStyle={floatingButtonContainerAnimStyle} onPress={handleAdd} />
+      {
+        /**
     <BottomMenuWorkoutItem
       ref={bottomMenuRef}
       onReorderPressed={handleOnReorderPressed}
