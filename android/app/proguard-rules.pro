@@ -8,3 +8,11 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# proguard kullanimina basladiginda deneyecegim.
+-keep class com.workouttime.BuildConfig { *; }
+
+-keep class io.realm.react.**
+
+# Added for react-native-google-mobile-ads
+-keep class com.google.android.gms.ads.** { *; }

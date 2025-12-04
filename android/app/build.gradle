@@ -96,8 +96,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 30
         versionName "1.0.0"
-        // manifestPlaceholders = [adMobAppId: defAdMobAppIdTest] // TODO yukseltme admob degisikliginde ekleyecegim
-        // buildConfigField "String", "ADUNITID", defAdMobUnitIdInterstitialTest
+        manifestPlaceholders = [adMobAppId: defAdMobAppIdTest] 
+        buildConfigField "String", "ADUNITID", defAdMobUnitIdInterstitialTest
     }
     signingConfigs {
         debug {
@@ -137,8 +137,8 @@ android {
             }else {
                 // production release
                 signingConfig signingConfigs.release
-                //  manifestPlaceholders = [adMobAppId: defAdMobAppIdReal] // TODO yukseltme admob degisikliginde ekleyecegim
-                //  buildConfigField "String", "ADUNITID", defAdMobUnitIdInterstitialReal // TODO yukseltme admob degisikliginde ekleyecegim
+                 manifestPlaceholders = [adMobAppId: defAdMobAppIdReal] 
+                 buildConfigField "String", "ADUNITID", defAdMobUnitIdInterstitialReal 
             }
 
             minifyEnabled enableProguardInReleaseBuilds

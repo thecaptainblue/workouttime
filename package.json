@@ -37,6 +37,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.29.1",
     "react-native-get-random-values": "^2.0.0",
+    "react-native-google-mobile-ads": "^15.8.3",
     "react-native-logs": "^5.5.0",
     "react-native-mmkv": "^4.0.1",
     "react-native-nitro-modules": "^0.31.10",

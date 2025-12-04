@@ -33,8 +33,8 @@ import { RuleItemDoc } from './persistence/RuleItemDoc';
 import Config from './@types/config/Config';
 import { TrackDoc } from './persistence/TrackDoc';
 import { RealmMigrationFunction, RealmSchemaVersion } from './persistence/RealmMigration';
-// import mobileAds from 'react-native-google-mobile-ads';
-// import { AdProvider } from './providers/AdProvider';
+import mobileAds from 'react-native-google-mobile-ads';
+import { AdProvider } from './providers/AdProvider';
 import { SystemDoc } from './persistence/SystemDoc';
 
 export const AppConstants = {
@@ -76,13 +76,13 @@ export default function AppMain() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   mobileAds()
-  //     .initialize()
-  //     .then(adapterStatuses => {
-  //       console.log('Mobile Ads initialized!');
-  //     });
-  // }, []);
+  useEffect(() => {
+    mobileAds()
+      .initialize()
+      .then(adapterStatuses => {
+        console.log('Mobile Ads initialized!');
+      });
+  }, []);
 
   useEffect(() => {
     if (isInitialized) {
@@ -118,67 +118,32 @@ export default function AppMain() {
     });
 
   LogService.debug('AppMain========================render');
-  // let content;
-  // if (isInitialized) {
-  //   content = (
-  //     <>
-  //       <SafeAreaProvider>
-  //         <Provider store={store}>
-  //           <AdProvider>
-  //             <RealmProvider
-  //               key={realmKey}
-  //               schema={[StatisticDoc, RuleDoc, RuleItemDoc, TrackDoc, SystemDoc]}
-  //               // deleteRealmIfMigrationNeeded={Config.isDebug == true ? true : false} // todo: dont upload like this.
-  //               schemaVersion={RealmSchemaVersion}
-  //               onMigration={RealmMigrationFunction}
-  //               migrationOptions={{ resolveEmbeddedConstraints: true }}
-  //               closeOnUnmount={false}>
-  //               <GestureHandlerRootView
-  //                 style={{ flex: 1 }}
-  //                 onLayout={event => {
-  //                   // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
-  //                 }}>
-  //                 <GestureDetector gesture={native}>
-  //                   <App />
-  //                 </GestureDetector>
-  //               </GestureHandlerRootView>
-  //             </RealmProvider>
-  //           </AdProvider>
-  //         </Provider>
-  //       </SafeAreaProvider>
-  //       <Toast config={toastConfig} position="bottom" bottomOffset={70} />
-  //     </>
-  //   );
-  // } else {
-  //   content = <View></View>;
-  // }
-
-  // return content;
-  ///////////////////////////===========
   let content;
   if (isInitialized) {
     content = (
       <>
         <SafeAreaProvider>
           <Provider store={store}>
-            <RealmProvider
-              key={realmKey}
-              schema={[StatisticDoc, RuleDoc, RuleItemDoc, TrackDoc, SystemDoc]}
-              // deleteRealmIfMigrationNeeded={Config.isDebug == true ? true : false} // todo: dont upload like this.
-              schemaVersion={RealmSchemaVersion}
-              onMigration={RealmMigrationFunction}
-              migrationOptions={{ resolveEmbeddedConstraints: true }}
-              closeOnUnmount={false}>
-              <GestureHandlerRootView
-                style={{ flex: 1 }}
-                onLayout={event => {
-                  // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
-                }}>
-                <GestureDetector gesture={native}>
-                  <App />
-                </GestureDetector>
-              </GestureHandlerRootView>
-            </RealmProvider>
+            <AdProvider>
+              <RealmProvider
+                key={realmKey}
+                schema={[StatisticDoc, RuleDoc, RuleItemDoc, TrackDoc, SystemDoc]}
+                // deleteRealmIfMigrationNeeded={Config.isDebug == true ? true : false} // todo: dont upload like this.
+                schemaVersion={RealmSchemaVersion}
+                onMigration={RealmMigrationFunction}
+                migrationOptions={{ resolveEmbeddedConstraints: true }}
+                closeOnUnmount={false}>
+                <GestureHandlerRootView
+                  style={{ flex: 1 }}
+                  onLayout={event => {
+                    // console.log('AppMain-GestureHandlerRootView ', LogHelper.toString(event.nativeEvent.layout));
+                  }}>
+                  <GestureDetector gesture={native}>
+                    <App />
+                  </GestureDetector>
+                </GestureHandlerRootView>
+              </RealmProvider>
+            </AdProvider>
           </Provider>
         </SafeAreaProvider>
         <Toast config={toastConfig} position="bottom" bottomOffset={70} />
