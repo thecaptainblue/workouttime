@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainStackScreen } from './views/Screens/MainStackScreen';
 import { SettingStackScreen } from './views/Screens/SettingStackScreen';
-// import { useInitializeTts } from './hooks/useInitializeTts';
+import { useInitializeTts } from './hooks/useInitializeTts';
 import AntSettingsIcon from 'react-native-vector-icons/AntDesign';
 import EntypoHomeIcon from 'react-native-vector-icons/Entypo';
 import { useInitializeInternationalization } from './hooks/useInitializeInternationalization';
@@ -39,7 +39,7 @@ enum TabScreenName {
 export default function App() {
   // const dispatch = useDispatch();
   // dispatch(setTS({key: ProfilingTSNames.HandleAppStarted, ts: ProfilingHelper.createTs()} satisfies PayloadSetTS));
-  // useInitializeTts();
+  useInitializeTts();
   useInitializeInternationalization();
   // // console.log('ScreenNames.MainHome: ', ScreenNames.MainHome);
   if (Config.configType != null && Config.configType != undefined) {
