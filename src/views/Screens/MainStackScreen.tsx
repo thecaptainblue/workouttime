@@ -4,7 +4,7 @@ import { MainStackParamList } from '../../@types/MainStackParamList';
 import WorkoutPlayer from '../WorkoutPlayer/WorkoutPlayer';
 import Home from '../Home/Home';
 // import WorkoutAddEdit from '../Workout/WorkoutAddEdit';
-// import ExerciseAddEdit from '../Workout/ExerciseAddEdit';
+import ExerciseAddEdit from '../Workout/ExerciseAddEdit';
 // import GroupAddEdit from '../Workout/GroupAddEdit';
 import { PageType } from '../../@types/PageType';
 import { useTranslation } from 'react-i18next';
@@ -158,81 +158,85 @@ export const MainStackScreen = () => {
               headerLeft: props => warningBackEditingWorkout(props, navigation),
             })}
           />
-          <MainStack.Screen
-            name={ScreenNames.MainExerciseAddEdit}
-            // component={ExerciseAddEdit}
-            children={props => {
-              return <ScreenWrapper component={ExerciseAddEdit} componentProps={props} willDelayRender={true} />;
-            }}
-            options={({route, navigation}) => ({
-              title: route.params.pageType == PageType.Add ? t(ResKey.ExerciseAddTitle) : t(ResKey.ExerciseEditTitle),
-              headerLeft: props => warningBackEditingWorkout(props, navigation),
-            })}
-          />
-          <MainStack.Screen
-            name={ScreenNames.MainGroupAddEdit}
-            // component={GroupAddEdit}
-            children={props => {
-              return <ScreenWrapper component={GroupAddEdit} componentProps={props} willDelayRender={true} />;
-            }}
-            options={({route, navigation}) => ({
-              title: route.params.pageType == PageType.Add ? t(ResKey.GroupAddTitle) : t(ResKey.GroupEditTitle),
-              headerLeft: props => warningBackEditingWorkout(props, navigation),
-            })}
-          />
-          <MainStack.Screen
-            name={ScreenNames.MainWorkoutNotifications}
-            // component={NotificationList}
-            children={props => {
-              return <ScreenWrapper component={NotificationList} componentProps={props} willDelayRender={true} />;
-            }}
-            options={({route, navigation}) => ({
-              title: t(ResKey.NotificationListTitle),
-              headerLeft: ({tintColor}) => (
-                <HeaderBackButtonWT tintColor={tintColor} onPress={() => navigation.goBack()} />
-              ),
-            })}
-          />
-          <MainStack.Screen
-            name={ScreenNames.MainWorkoutNotificationAddEdit}
-            // component={NotificationAddEdit}
-            children={props => {
-              return <ScreenWrapper component={NotificationAddEdit} componentProps={props} willDelayRender={true} />;
-            }}
-            options={({route, navigation}) => ({
-              title:
-                route.params.pageType == PageType.Add ? t(ResKey.NotificationAddTitle) : t(ResKey.NotificationEditTitle),
-              headerLeft: ({tintColor}) => (
-                <HeaderBackButtonWT tintColor={tintColor} onPress={() => navigation.goBack()} />
-              ),
-            })}
-          />
-          <MainStack.Screen
-            name={ScreenNames.MainStatistic}
-            children={props => {
-              return <ScreenWrapper component={Statistic} componentProps={props} willDelayRender={false} />;
-            }}
-            options={({route, navigation}) => ({
-              headerTitle: ({children, tintColor}) =>
-                customHeaderTitle({
-                  children,
-                  tintColor,
-                  title: t(ResKey.StatisticTitle) + ' - ' + route.params.workoutName,
-                }),
-              // headerLeft: props => warningBackEditingWorkout(props, navigation),
-            })}
-          />
-          <MainStack.Screen
-            name={ScreenNames.MainGoal}
-            children={props => {
-              return <ScreenWrapper component={Goal} componentProps={props} willDelayRender={false} />;
-            }}
-            options={({route, navigation}) => ({
-              headerTitle: ({children, tintColor}) =>
-                customHeaderTitle({children, tintColor, title: t(ResKey.GoalTitle) + ' - ' + route.params.workoutName}),
-            })}
-          />
-                  */
+                   
+                  */}
+        <MainStack.Screen
+          name={ScreenNames.MainExerciseAddEdit}
+          // component={ExerciseAddEdit}
+          children={props => {
+            return <ScreenWrapper component={ExerciseAddEdit} componentProps={props} willDelayRender={true} />;
+          }}
+          options={({ route, navigation }) => ({
+            title: route.params.pageType == PageType.Add ? t(ResKey.ExerciseAddTitle) : t(ResKey.ExerciseEditTitle),
+            headerLeft: props => warningBackEditingWorkout(props, navigation),
+          })}
+        />
+        {
+          /*
+  <MainStack.Screen
+    name={ScreenNames.MainGroupAddEdit}
+    // component={GroupAddEdit}
+    children={props => {
+      return <ScreenWrapper component={GroupAddEdit} componentProps={props} willDelayRender={true} />;
+    }}
+    options={({route, navigation}) => ({
+      title: route.params.pageType == PageType.Add ? t(ResKey.GroupAddTitle) : t(ResKey.GroupEditTitle),
+      headerLeft: props => warningBackEditingWorkout(props, navigation),
+    })}
+  />
+  <MainStack.Screen
+    name={ScreenNames.MainWorkoutNotifications}
+    // component={NotificationList}
+    children={props => {
+      return <ScreenWrapper component={NotificationList} componentProps={props} willDelayRender={true} />;
+    }}
+    options={({route, navigation}) => ({
+      title: t(ResKey.NotificationListTitle),
+      headerLeft: ({tintColor}) => (
+        <HeaderBackButtonWT tintColor={tintColor} onPress={() => navigation.goBack()} />
+      ),
+    })}
+  />
+  <MainStack.Screen
+    name={ScreenNames.MainWorkoutNotificationAddEdit}
+    // component={NotificationAddEdit}
+    children={props => {
+      return <ScreenWrapper component={NotificationAddEdit} componentProps={props} willDelayRender={true} />;
+    }}
+    options={({route, navigation}) => ({
+      title:
+        route.params.pageType == PageType.Add ? t(ResKey.NotificationAddTitle) : t(ResKey.NotificationEditTitle),
+      headerLeft: ({tintColor}) => (
+        <HeaderBackButtonWT tintColor={tintColor} onPress={() => navigation.goBack()} />
+      ),
+    })}
+  />
+  <MainStack.Screen
+    name={ScreenNames.MainStatistic}
+    children={props => {
+      return <ScreenWrapper component={Statistic} componentProps={props} willDelayRender={false} />;
+    }}
+    options={({route, navigation}) => ({
+      headerTitle: ({children, tintColor}) =>
+        customHeaderTitle({
+          children,
+          tintColor,
+          title: t(ResKey.StatisticTitle) + ' - ' + route.params.workoutName,
+        }),
+      // headerLeft: props => warningBackEditingWorkout(props, navigation),
+    })}
+  />
+  <MainStack.Screen
+    name={ScreenNames.MainGoal}
+    children={props => {
+      return <ScreenWrapper component={Goal} componentProps={props} willDelayRender={false} />;
+    }}
+    options={({route, navigation}) => ({
+      headerTitle: ({children, tintColor}) =>
+        customHeaderTitle({children, tintColor, title: t(ResKey.GoalTitle) + ' - ' + route.params.workoutName}),
+    })}
+  />
+          */
         }
       </MainStack.Group>
 

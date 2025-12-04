@@ -387,7 +387,19 @@ export default function Home(props: HomeProps) {
         }}> */}
       <View style={styles.containerScroll}>
         <Text style={{ color: "white" }}> hello home</Text>
-        <Button title='Play' onPress={() => onPressWhenNoDraggingCallback(workoutsRef.current[0].id)} />
+        <Button title='Play' onPress={() => {
+          // onPressWhenNoDraggingCallback(workoutsRef.current[0].id)
+          props.navigation.navigate(ScreenNames.MainExerciseAddEdit, {
+            idLadder: [],
+            componentId: null,
+            parentGroupId: null,
+            pageType: PageType.Add,
+            isFromWorkout: true,
+            isRepBased: false,
+          });
+        }
+
+        } />
 
         {
           /**
