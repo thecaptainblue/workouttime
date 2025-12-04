@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ColorConstants, HeaderSizeConstants } from '../../constants/StyleConstants';
 import { MainStackParamList } from '../../@types/MainStackParamList';
-// import WorkoutPlayer from '../WorkoutPlayer/WorkoutPlayer';
+import WorkoutPlayer from '../WorkoutPlayer/WorkoutPlayer';
 import Home from '../Home/Home';
 // import WorkoutAddEdit from '../Workout/WorkoutAddEdit';
 // import ExerciseAddEdit from '../Workout/ExerciseAddEdit';
@@ -9,57 +9,57 @@ import Home from '../Home/Home';
 import { PageType } from '../../@types/PageType';
 import { useTranslation } from 'react-i18next';
 import { ResKey } from '../../lang/ResKey';
-// import WorkoutPlayerEnd from '../WorkoutPlayer/WorkoutPlayerEnd';
+import WorkoutPlayerEnd from '../WorkoutPlayer/WorkoutPlayerEnd';
 import { HeaderBackButtonProps } from '@react-navigation/elements';
 import { ScreenNames } from './ScreenNames';
 // import WarningBack from '../Workout/WarningBack';
-// import { HeaderBackButtonWT } from '../../components/HeaderBackButtonWT';
+import { HeaderBackButtonWT } from '../../components/HeaderBackButtonWT';
 import React, { useCallback, ReactNode } from 'react';
 // import NotificationList from '../Workout/NotificationList';
 // import NotificationAddEdit from '../Workout/NotificationAddEdit';
 import { ScreenWrapper } from '../Workout/ScreenWrapper';
 // import Statistic from '../Workout/Statistic';
 // import Goal from '../Workout/Goal';
-// import { CustomHeaderTitle } from '../../components/header/CustomHeaderTitle';
+import { CustomHeaderTitle } from '../../components/header/CustomHeaderTitle';
 // import Dialog from '../Workout/Dialog';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
-// const customHeaderTitle = ({
-//   children,
-//   tintColor,
-//   title,
-// }: {
-//   children: string;
-//   tintColor?: string;
-//   title: string;
-// }): ReactNode => {
-//   return <CustomHeaderTitle titleText={title} tintColor={tintColor} />;
-// };
+const customHeaderTitle = ({
+  children,
+  tintColor,
+  title,
+}: {
+  children: string;
+  tintColor?: string;
+  title: string;
+}): ReactNode => {
+  return <CustomHeaderTitle titleText={title} tintColor={tintColor} />;
+};
 
 export const MainStackScreen = () => {
   const { t } = useTranslation();
 
-  // const warningBackEditingWorkout = useCallback((props: HeaderBackButtonProps, navigation: any) => {
-  //   return (
-  //     <HeaderBackButtonWT
-  //       tintColor={props.tintColor}
-  //       onPress={() =>
-  //         navigation.navigate(ScreenNames.MainWarningBack, { message: t(ResKey.WarningConfirmationEditing) })
-  //       }
-  //     />
-  //   );
-  // }, []);
+  const warningBackEditingWorkout = useCallback((props: HeaderBackButtonProps, navigation: any) => {
+    return (
+      <HeaderBackButtonWT
+        tintColor={props.tintColor}
+        onPress={() =>
+          navigation.navigate(ScreenNames.MainWarningBack, { message: t(ResKey.WarningConfirmationEditing) })
+        }
+      />
+    );
+  }, []);
 
-  // const warningBackWorkoutPlayer = useCallback((props: HeaderBackButtonProps, navigation: any) => {
-  //   return (
-  //     <HeaderBackButtonWT
-  //       tintColor={props.tintColor}
-  //       onPress={() =>
-  //         navigation.navigate(ScreenNames.MainWarningBack, { message: t(ResKey.WarningConfirmationTerminatingWP) })
-  //       }
-  //     />
-  //   );
-  // }, []);
+  const warningBackWorkoutPlayer = useCallback((props: HeaderBackButtonProps, navigation: any) => {
+    return (
+      <HeaderBackButtonWT
+        tintColor={props.tintColor}
+        onPress={() =>
+          navigation.navigate(ScreenNames.MainWarningBack, { message: t(ResKey.WarningConfirmationTerminatingWP) })
+        }
+      />
+    );
+  }, []);
 
   return (
     <MainStack.Navigator
@@ -98,39 +98,40 @@ export const MainStackScreen = () => {
           }}
         />
 
+
+        <MainStack.Screen
+          name={ScreenNames.MainWorkoutPlayer}
+          component={WorkoutPlayer}
+          options={({ route, navigation }) => ({
+            // title: t(ResKey.WorkoutPlayerTitle),
+            headerTitle: ({ children, tintColor }) =>
+              customHeaderTitle({
+                children,
+                tintColor,
+                title: t(ResKey.WorkoutPlayerTitle) + ' - ' + route.params.workout.name,
+              }),
+            headerBackVisible: false, // headerTitle verince kendi back butonunu gosteriyor , ilave olara headerLeft geldiginde iki tane back butonu oluyor.
+            headerLeft: props => warningBackWorkoutPlayer(props, navigation),
+          })}
+        />
+        <MainStack.Screen
+          name={ScreenNames.MainWorkoutPlayerEnd}
+          component={WorkoutPlayerEnd}
+          options={({ route, navigation }) => ({
+            headerTitle: ({ children, tintColor }) =>
+              customHeaderTitle({
+                children,
+                tintColor,
+                title: t(ResKey.WorkoutPlayerTitle) + ' - ' + route.params.workoutName,
+              }),
+            headerBackVisible: false, // headerTitle verince kendi back butonunu gosteriyor , ilave olara headerLeft geldiginde iki tane back butonu oluyor.
+            headerLeft: ({ tintColor }) => (
+              <HeaderBackButtonWT tintColor={tintColor} onPress={() => navigation.navigate(ScreenNames.MainHome)} />
+            ),
+          })}
+        />
         {
           /*
-  <MainStack.Screen
-            name={ScreenNames.MainWorkoutPlayer}
-            component={WorkoutPlayer}
-            options={({route, navigation}) => ({
-              // title: t(ResKey.WorkoutPlayerTitle),
-              headerTitle: ({children, tintColor}) =>
-                customHeaderTitle({
-                  children,
-                  tintColor,
-                  title: t(ResKey.WorkoutPlayerTitle) + ' - ' + route.params.workout.name,
-                }),
-              headerBackVisible: false, // headerTitle verince kendi back butonunu gosteriyor , ilave olara headerLeft geldiginde iki tane back butonu oluyor.
-              headerLeft: props => warningBackWorkoutPlayer(props, navigation),
-            })}
-          />
-          <MainStack.Screen
-            name={ScreenNames.MainWorkoutPlayerEnd}
-            component={WorkoutPlayerEnd}
-            options={({route, navigation}) => ({
-              headerTitle: ({children, tintColor}) =>
-                customHeaderTitle({
-                  children,
-                  tintColor,
-                  title: t(ResKey.WorkoutPlayerTitle) + ' - ' + route.params.workoutName,
-                }),
-              headerBackVisible: false, // headerTitle verince kendi back butonunu gosteriyor , ilave olara headerLeft geldiginde iki tane back butonu oluyor.
-              headerLeft: ({tintColor}) => (
-                <HeaderBackButtonWT tintColor={tintColor} onPress={() => navigation.navigate(ScreenNames.MainHome)} />
-              ),
-            })}
-          />
           <MainStack.Screen
             // name={'Wrapper'}
             name={ScreenNames.MainWorkoutAddEdit}

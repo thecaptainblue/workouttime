@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { AppState, StyleSheet, Text, View } from 'react-native';
+import { AppState, Button, StyleSheet, Text, View } from 'react-native';
 // import { DraggableScrolSizeConstants } from '../../constants/StyleConstants';
 import { MainStackParamList } from '../../@types/MainStackParamList';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -387,6 +387,8 @@ export default function Home(props: HomeProps) {
         }}> */}
       <View style={styles.containerScroll}>
         <Text style={{ color: "white" }}> hello home</Text>
+        <Button title='Play' onPress={() => onPressWhenNoDraggingCallback(workoutsRef.current[0].id)} />
+
         {
           /**
         <FastList
