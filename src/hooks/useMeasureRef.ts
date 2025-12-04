@@ -14,7 +14,7 @@ export function useMeasureRef(areaMeasurement: SharedValue<MeasuredDimensions | 
     // const latestAnimatedRef = useSharedValue<AnimatedRef<any> | null>(null);
     // const latestAnimatedRef = useRef<AnimatedRef<any> | null>(null);
     // const [latestAnimatedRef, setLatestAnimatedRef] = useState<AnimatedRef<any> | null>(null);
-    const latestAnimatedRef = useRef<any>(null);
+    const latestAnimatedRef = useRef<any>(null); // TODO yukseltme
     // nedense animatedRefi iki render arasina tasiyamiyorum, layoutlarda farklilik var mi diye bakacagim bu haliyle biraksam olur mu diye
     // const areaMeasurement = useSharedValue<MeasuredDimensions | null>(null);
     const onlayoutChanged = useCallback((animatedRef: AnimatedRef<any>) => {
