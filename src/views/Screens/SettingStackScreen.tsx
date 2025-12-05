@@ -6,7 +6,7 @@ import SettingsLanguage from '../Setting/SettingsLanguage';
 import { useTranslation } from 'react-i18next';
 import { ResKey } from '../../lang/ResKey';
 import { ScreenNames } from './ScreenNames';
-// import SettingsExport from '../Setting/SettingsExport'; //TODO yukseltme 
+import SettingsExport from '../Setting/SettingsExport';
 
 const SettingStack = createNativeStackNavigator<SettingStackParamList>();
 export const SettingStackScreen = () => {
@@ -34,12 +34,11 @@ export const SettingStackScreen = () => {
         component={SettingsLanguage}
         options={{ title: t(ResKey.SelectLanguage) }}
       />
-      {/* //TODO yukseltme */}
-      {/* <SettingStack.Screen
+      <SettingStack.Screen
         name={ScreenNames.SettingsExport}
         component={SettingsExport}
         options={{ title: t(ResKey.SettingsExport) }}
-      /> */}
+      />
       {/* <SettingStack.Screen
         name="WorkoutPlayer"
         component={WorkoutPlayer}

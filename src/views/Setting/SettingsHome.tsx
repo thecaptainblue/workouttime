@@ -4,7 +4,7 @@ import { ColorConstants, FontConstants, SizeConstants } from '../../constants/St
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import ScrollContainer from '../../components/ScrollContainer';
 import { LogService } from '../../services/Log/LogService';
-// import Tts from 'react-native-tts';
+import Tts from 'react-native-tts';
 import { SettingStackParamList } from '../../@types/SettingStack';
 import { SettingItem } from '../../@types/SettingItem';
 import { ServiceRegistry } from '../../services/ServiceRegistry';
@@ -21,15 +21,15 @@ import { MenuButton } from '../../components/MenuButton';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FSHelper } from '../../helper/FSHelper';
 import { logError } from '../../helper/LogHelper';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { WorkoutService } from '../../services/WorkoutService';
 import { v4 } from 'uuid';
 import { WorkoutHelper } from '../../@types/Data/WorkoutHelper';
-// import { AddWorkout, AddWorkouts, PayloadAddWorkout, PayloadAddWorkouts } from '../../store/features/workoutsSlice';
+import { AddWorkout, AddWorkouts, PayloadAddWorkout, PayloadAddWorkouts } from '../../store/features/workoutsSlice';
 import Toast from 'react-native-toast-message';
-// import { ExportImportHelper } from '../../helper/WorkoutExportImportHelper';
+import { ExportImportHelper } from '../../helper/WorkoutExportImportHelper';
 import { WorkoutData } from '../../@types/Data/WorkoutData';
-// import { useRealm } from '@realm/react';
+import { useRealm } from '@realm/react';
 import { EventName } from '../../@types/EventNames';
 import RNFS from 'react-native-fs';
 
@@ -55,9 +55,8 @@ const SettingsHome = (props: SettingsHomeProps) => {
   const settingsServiceRef = useRef<SettingsService | null>(null);
   const workoutServiceRef = useRef<WorkoutService | null>(null);
   const { t } = useTranslation();
-  // TODO yukseltme
-  // const dispatch = useDispatch();
-  // const realm = useRealm();
+  const dispatch = useDispatch();
+  const realm = useRealm();
 
   useEffect(() => {
     LogService.debug('SettingsHome=========-----------------------start');
@@ -92,14 +91,14 @@ const SettingsHome = (props: SettingsHomeProps) => {
 
       settingsService.changeSetting(new SettingItem(SettingsType.language, ResKey.Language, languageKey, languageText));
       // todo: bunu servis uzerinden yapmam lazim.
-      // Tts.setDefaultLanguage(languageKey);//TODO yukseltme 
+      Tts.setDefaultLanguage(languageKey);
       i18next.changeLanguage(languageKey);
       setSettingItems(settingsService.getSettings());
     }
   }, []);
 
   const handleExportPressed = useCallback(() => {
-    // props.navigation.navigate(ScreenNames.SettingsExport); //TODO yukseltme
+    props.navigation.navigate(ScreenNames.SettingsExport);
   }, []);
 
   const handleExportAllPressed = useCallback(async () => {
@@ -108,95 +107,92 @@ const SettingsHome = (props: SettingsHomeProps) => {
     const workoutService = workoutServiceRef.current;
     const workouts = workoutService?.getWorkouts();
     if (isPerrmisionGranted && workouts != null) {
-      //TODO yukseltme 
-      // const fileName = ExportImportHelper.createAllWorkoutsFileName();
-      // // await FSHelper.saveToDownload(fileName, workout);
-      // const exportData = ExportImportHelper.createExportData(workouts);
-      // await FSHelper.saveFileAskFirst(fileName, exportData, true);
-      // // LogService.infoFormat('handleExportAllPressed, file exported {0}', fileName);
+      const fileName = ExportImportHelper.createAllWorkoutsFileName();
+      // await FSHelper.saveToDownload(fileName, workout);
+      const exportData = ExportImportHelper.createExportData(workouts);
+      await FSHelper.saveFileAskFirst(fileName, exportData, true);
+      // LogService.infoFormat('handleExportAllPressed, file exported {0}', fileName);
     }
   }, []);
 
   const handleImportPressed = useCallback(() => {
-    //TODO yukseltme 
-    // // props.navigation.navigate(ScreenNames.SettingsExport);
-    // FSHelper.browseReadFileAskFirst(true)
-    //   .then(exportData => {
-    //     // LogService.debugFormat('importFileIntoWorkout, file content {0}', LogHelper.toString(exportData));
-    //     const workoutService = workoutServiceRef.current;
-    //     if (
-    //       exportData != null &&
-    //       exportData.workouts != null &&
-    //       exportData.workouts.length > 0 &&
-    //       exportData.workouts[0] != null
-    //     ) {
-    //       if (workoutService != null) {
-    //         const workouts = workoutService.getWorkouts();
-    //         const workout = exportData.workouts[0];
-    //         const newWorkout = WorkoutHelper.createWorkoutDistinct(workout, workouts, v4);
-    //         workoutService?.addWorkout(newWorkout);
-    //         dispatch(AddWorkout({ workout: newWorkout } satisfies PayloadAddWorkout));
-    //         Toast.show({
-    //           type: 'info',
-    //           text1: t(ResKey.InfoImportSuccess),
-    //         });
-    //         //todo: yeni workoutun kaydedilememesini de ele al (hata akisi)
-    //       }
-    //     } else {
-    //       Toast.show({
-    //         type: 'error',
-    //         text1: t(ResKey.ErrorImportStructureFailure),
-    //       });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     logError(error);
-    //     Toast.show({
-    //       type: 'error',
-    //       text1: t(ResKey.ErrorImportFailure),
-    //     });
-    //   });
+    // props.navigation.navigate(ScreenNames.SettingsExport);
+    FSHelper.browseReadFileAskFirst(true)
+      .then(exportData => {
+        // LogService.debugFormat('importFileIntoWorkout, file content {0}', LogHelper.toString(exportData));
+        const workoutService = workoutServiceRef.current;
+        if (
+          exportData != null &&
+          exportData.workouts != null &&
+          exportData.workouts.length > 0 &&
+          exportData.workouts[0] != null
+        ) {
+          if (workoutService != null) {
+            const workouts = workoutService.getWorkouts();
+            const workout = exportData.workouts[0];
+            const newWorkout = WorkoutHelper.createWorkoutDistinct(workout, workouts, v4);
+            workoutService?.addWorkout(newWorkout);
+            dispatch(AddWorkout({ workout: newWorkout } satisfies PayloadAddWorkout));
+            Toast.show({
+              type: 'info',
+              text1: t(ResKey.InfoImportSuccess),
+            });
+            //todo: yeni workoutun kaydedilememesini de ele al (hata akisi)
+          }
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: t(ResKey.ErrorImportStructureFailure),
+          });
+        }
+      })
+      .catch(error => {
+        logError(error);
+        Toast.show({
+          type: 'error',
+          text1: t(ResKey.ErrorImportFailure),
+        });
+      });
   }, []);
 
   const handleImportAllPressed = useCallback(() => {
-    //TODO yukseltme 
-    // // props.navigation.navigate(ScreenNames.SettingsExport);
-    // FSHelper.browseReadFileAskFirst(true)
-    //   .then(exportData => {
-    //     // LogService.debugFormat('importFileIntoWorkout, file content {0}', LogHelper.toString(exportData));
-    //     const workoutService = workoutServiceRef.current;
-    //     if (exportData != null && exportData.workouts != null && exportData.workouts.length > 0) {
-    //       if (workoutService != null) {
-    //         const workouts = workoutService.getWorkouts();
-    //         let newWorkouts: WorkoutData[] = [];
-    //         exportData.workouts.forEach(item => {
-    //           const newWorkout = WorkoutHelper.createWorkoutDistinct(item, workouts, v4);
-    //           newWorkouts.push(newWorkout);
-    //         });
+    // props.navigation.navigate(ScreenNames.SettingsExport);
+    FSHelper.browseReadFileAskFirst(true)
+      .then(exportData => {
+        // LogService.debugFormat('importFileIntoWorkout, file content {0}', LogHelper.toString(exportData));
+        const workoutService = workoutServiceRef.current;
+        if (exportData != null && exportData.workouts != null && exportData.workouts.length > 0) {
+          if (workoutService != null) {
+            const workouts = workoutService.getWorkouts();
+            let newWorkouts: WorkoutData[] = [];
+            exportData.workouts.forEach(item => {
+              const newWorkout = WorkoutHelper.createWorkoutDistinct(item, workouts, v4);
+              newWorkouts.push(newWorkout);
+            });
 
-    //         workoutService.addWorkouts(newWorkouts);
-    //         dispatch(AddWorkouts({ workouts: newWorkouts } satisfies PayloadAddWorkouts));
+            workoutService.addWorkouts(newWorkouts);
+            dispatch(AddWorkouts({ workouts: newWorkouts } satisfies PayloadAddWorkouts));
 
-    //         Toast.show({
-    //           type: 'info',
-    //           text1: t(ResKey.InfoImportSuccess),
-    //         });
-    //         //todo: yeni workoutun kaydedilememesini de ele al (hata akisi)
-    //       }
-    //     } else {
-    //       Toast.show({
-    //         type: 'error',
-    //         text1: t(ResKey.ErrorImportStructureFailure),
-    //       });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     logError(error);
-    //     Toast.show({
-    //       type: 'error',
-    //       text1: t(ResKey.ErrorImportFailure),
-    //     });
-    //   });
+            Toast.show({
+              type: 'info',
+              text1: t(ResKey.InfoImportSuccess),
+            });
+            //todo: yeni workoutun kaydedilememesini de ele al (hata akisi)
+          }
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: t(ResKey.ErrorImportStructureFailure),
+          });
+        }
+      })
+      .catch(error => {
+        logError(error);
+        Toast.show({
+          type: 'error',
+          text1: t(ResKey.ErrorImportFailure),
+        });
+      });
   }, []);
 
   const reopenRealm = useCallback(() => {
@@ -204,23 +200,21 @@ const SettingsHome = (props: SettingsHomeProps) => {
   }, []);
 
   const handleExportDBPressed = useCallback(async () => {
-    //TODO yukseltme 
-    // // LogService.infoFormat('handleExportDBPressed');
-    // const realmPath = realm.path;
-    // // realm kapatip acma islemi olmadan da calisiyor gibi
-    // // realm.close();
-    // await FSHelper.exportDB(realmPath, RNFS.DownloadDirectoryPath, true);
-    // // reopenRealm();
+    // LogService.infoFormat('handleExportDBPressed');
+    const realmPath = realm.path;
+    // realm kapatip acma islemi olmadan da calisiyor gibi
+    // realm.close();
+    await FSHelper.exportDB(realmPath, RNFS.DownloadDirectoryPath, true);
+    // reopenRealm();
   }, []);
 
   const handleImportDBPressed = useCallback(async () => {
-    //TODO yukseltme 
-    // // LogService.infoFormat('handleImportDBPressed');
-    // const realmPath = realm.path;
-    // // realm kapatip acma islemi olmadan release'de calismiyor!
-    // realm.close();
-    // await FSHelper.importDB(realmPath, RNFS.DownloadDirectoryPath);
-    // reopenRealm();
+    // LogService.infoFormat('handleImportDBPressed');
+    const realmPath = realm.path;
+    // realm kapatip acma islemi olmadan release'de calismiyor!
+    realm.close();
+    await FSHelper.importDB(realmPath, RNFS.DownloadDirectoryPath);
+    reopenRealm();
   }, []);
 
   LogService.debug('rerender SettingsHome');
