@@ -367,7 +367,7 @@ export default function Home(props: HomeProps) {
 
   const willDisplay = isThereNotification == false;
 
-  LogService.debugFormat('rerender home willDisplay: {0}', willDisplay);
+  LogService.debugFormat('rerender home willDisplay: {0} workoutsLength: {1}', willDisplay, workouts.length);
 
   if (!willDisplay) {
     return null;
